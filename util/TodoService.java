@@ -1,11 +1,16 @@
 package fr.m2i.m2ws.util;
 
+
 import fr.m2i.m2ws.model.Todo;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlElementWrapper;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@XmlRootElement(name = "todoService")
 public class TodoService {
+
     private final List<Todo> todos = new ArrayList<>();
     private int idActuel = 1;
 
@@ -13,7 +18,6 @@ public class TodoService {
 
     private TodoService() {
     }
-
     public static TodoService getInstance() {
         if (instance == null) {
             instance = new TodoService();
@@ -59,5 +63,24 @@ public class TodoService {
             }
         }
         return null;
+    }
+
+    @XmlElement(name = "todos")
+    @XmlElementWrapper(name = "liste")
+    public List<Todo> getTodos() {
+        return todos;
+    }
+
+    @XmlElement()
+    public int getIdActuel() {
+        return idActuel;
+    }
+
+    public void setIdActuel(int idActuel) {
+        this.idActuel = idActuel;
+    }
+
+    public static void setInstance(TodoService instance) {
+        TodoService.instance = instance;
     }
 }
